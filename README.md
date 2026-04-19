@@ -4,7 +4,7 @@ This repository now contains the starter implementation of a browser-based POS s
 
 ## Implemented features
 
-- Secure login gate (password policy + session-based access)
+- Login gate with credential check and session-based access
 - Customer creation (name + phone)
 - Sales entry with item type selection:
   - **Book**
@@ -13,6 +13,7 @@ This repository now contains the starter implementation of a browser-based POS s
   - School
   - Grade
 - Amount paid tracking and customer balance view
+- Local persistence for customers and sales data in browser storage
 - Mobile-friendly responsive layout for phone browsers
 
 ## Tech stack
@@ -35,6 +36,11 @@ python3 -m http.server 8080
 Then open:
 
 - `http://localhost:8080/index.html`
+
+Use demo credentials:
+
+- Username: `admin`
+- Password: `Admin#123`
 
 ## Notes
 

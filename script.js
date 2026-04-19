@@ -2,6 +2,11 @@ const state = {
   customers: [],
   sales: [],
 };
+const STORAGE_KEY = 'posData';
+const DEMO_CREDENTIALS = {
+  username: 'admin',
+  password: 'Admin#123',
+};
 
 const loginSection = document.getElementById('login-section');
 const posSection = document.getElementById('pos-section');
@@ -15,6 +20,29 @@ const itemTypeSelect = document.getElementById('item-type');
 const bookOptions = document.getElementById('book-options');
 const schoolInput = document.getElementById('school');
 const gradeSelect = document.getElementById('grade');
+
+function saveState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function loadState() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (!saved) {
+    return;
+  }
+
+  try {
+    const parsed = JSON.parse(saved);
+    if (Array.isArray(parsed.customers)) {
+      state.customers = parsed.customers;
+    }
+    if (Array.isArray(parsed.sales)) {
+      state.sales = parsed.sales;
+    }
+  } catch {
+    localStorage.removeItem(STORAGE_KEY);
+  }
+}
 
 function renderCustomerOptions() {
   customerSelect.innerHTML = '<option value="">Choose customer</option>';
@@ -70,8 +98,14 @@ loginForm.addEventListener('submit', (event) => {
     return;
   }
 
+  if (username !== DEMO_CREDENTIALS.username || password !== DEMO_CREDENTIALS.password) {
+    alert('Invalid credentials.');
+    return;
+  }
+
   sessionStorage.setItem('posSession', crypto.randomUUID());
   showPos();
+  renderCustomerOptions();
   renderBalances();
   loginForm.reset();
 });
@@ -87,6 +121,7 @@ customerForm.addEventListener('submit', (event) => {
   const name = document.getElementById('customer-name').value.trim();
   const phone = document.getElementById('customer-phone').value.trim();
   state.customers.push({ id: crypto.randomUUID(), name, phone });
+  saveState();
 
   customerForm.reset();
   renderCustomerOptions();
@@ -119,11 +154,17 @@ saleForm.addEventListener('submit', (event) => {
   }
 
   state.sales.push(sale);
+  saveState();
+  const currentItemType = itemTypeSelect.value;
   saleForm.reset();
-  itemTypeSelect.value = 'book';
+  itemTypeSelect.value = currentItemType;
   itemTypeSelect.dispatchEvent(new Event('change'));
   renderBalances();
 });
+
+loadState();
+renderCustomerOptions();
+renderBalances();
 
 if (sessionStorage.getItem('posSession')) {
   showPos();
