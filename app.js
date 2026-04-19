@@ -8,6 +8,7 @@ const defaultAuth = {
   username: "admin",
   passwordHash: "a109e36947ad56de1dca1cc49f0ef8ac9ad9a7b1aa0df41fb3c4cb73c1ff01ea",
 };
+const currency = "NPR";
 
 const app = {
   customers: load(storageKeys.customers, []),
@@ -94,7 +95,7 @@ function render() {
   } else {
     for (const customer of app.customers) {
       const li = document.createElement("li");
-      li.textContent = `${customer.name} (${customer.phone}) - NPR ${(balanceMap.get(customer.id) || 0).toFixed(2)}`;
+      li.textContent = `${customer.name} (${customer.phone}) - ${currency} ${(balanceMap.get(customer.id) || 0).toFixed(2)}`;
       balances.appendChild(li);
     }
   }
@@ -106,7 +107,7 @@ function render() {
   } else {
     for (const item of app.items) {
       const li = document.createElement("li");
-      li.textContent = `${item.name} (${item.type}) - NPR ${item.price.toFixed(2)}`;
+      li.textContent = `${item.name} (${item.type}) - ${currency} ${item.price.toFixed(2)}`;
       itemsList.appendChild(li);
     }
   }
