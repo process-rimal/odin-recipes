@@ -2,7 +2,6 @@ const storageKeys = {
   customers: "pos_customers",
   items: "pos_items",
   sales: "pos_sales",
-  auth: "pos_auth",
 };
 
 const defaultAuth = {
@@ -14,6 +13,7 @@ const app = {
   customers: load(storageKeys.customers, []),
   items: load(storageKeys.items, []),
   sales: load(storageKeys.sales, []),
+  isLoggedIn: false,
 };
 
 function load(key, fallback) {
@@ -45,7 +45,10 @@ async function hashText(value) {
 }
 
 function uid(prefix) {
-  return `${prefix}_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+  if (typeof crypto.randomUUID === "function") {
+    return `${prefix}_${crypto.randomUUID()}`;
+  }
+  return `${prefix}_${Date.now()}_${Math.floor(Math.random() * 1000000)}`;
 }
 
 function getBalances() {
@@ -141,7 +144,7 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
 
   const hash = await hashText(password);
   if (username === defaultAuth.username && hash === defaultAuth.passwordHash) {
-    localStorage.setItem(storageKeys.auth, "1");
+    app.isLoggedIn = true;
     loginMessage.textContent = "";
     toggleApp(true);
     return;
@@ -151,7 +154,7 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
 });
 
 document.getElementById("logout-btn").addEventListener("click", () => {
-  localStorage.removeItem(storageKeys.auth);
+  app.isLoggedIn = false;
   toggleApp(false);
 });
 
@@ -209,4 +212,4 @@ document.getElementById("sale-form").addEventListener("submit", (event) => {
   render();
 });
 
-toggleApp(localStorage.getItem(storageKeys.auth) === "1");
+toggleApp(app.isLoggedIn);

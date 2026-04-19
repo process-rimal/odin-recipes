@@ -1,4 +1,4 @@
-# odin-recipes
+# Book & Stationery POS System
 
 Initial POS system implementation for a book and stationery shop:
 
