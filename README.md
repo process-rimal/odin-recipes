@@ -29,7 +29,7 @@ Since this is a static starter app, you can run it with any static file server.
 Example:
 
 ```bash
-cd /home/runner/work/odin-recipes/odin-recipes
+cd odin-recipes
 python3 -m http.server 8080
 ```
 
@@ -49,3 +49,5 @@ This is a starter implementation to begin development and can be extended with:
 - Backend persistence (Node.js + database)
 - Real authentication and authorization
 - Sales history, inventory, and reporting
+
+Current authentication/session handling is demo-only and not production secure.
