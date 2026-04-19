@@ -164,7 +164,6 @@ saleForm.addEventListener('submit', (event) => {
 
 loadState();
 renderCustomerOptions();
-renderBalances();
 
 if (sessionStorage.getItem('posSession')) {
   showPos();
