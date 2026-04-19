@@ -79,24 +79,56 @@ function render() {
   const saleCustomer = document.getElementById("sale-customer");
   const saleItem = document.getElementById("sale-item");
   const balanceMap = getBalances();
+  balances.replaceChildren();
+  itemsList.replaceChildren();
+  saleCustomer.replaceChildren();
+  saleItem.replaceChildren();
 
-  balances.innerHTML = app.customers.length
-    ? app.customers
-        .map((customer) => `<li>${customer.name} (${customer.phone}) - NPR ${balanceMap.get(customer.id).toFixed(2)}</li>`)
-        .join("")
-    : "<li>No customers yet.</li>";
+  if (!app.customers.length) {
+    const li = document.createElement("li");
+    li.textContent = "No customers yet.";
+    balances.appendChild(li);
+  } else {
+    for (const customer of app.customers) {
+      const li = document.createElement("li");
+      li.textContent = `${customer.name} (${customer.phone}) - NPR ${(balanceMap.get(customer.id) || 0).toFixed(2)}`;
+      balances.appendChild(li);
+    }
+  }
 
-  itemsList.innerHTML = app.items.length
-    ? app.items.map((item) => `<li>${item.name} (${item.type}) - NPR ${item.price.toFixed(2)}</li>`).join("")
-    : "<li>No items yet.</li>";
+  if (!app.items.length) {
+    const li = document.createElement("li");
+    li.textContent = "No items yet.";
+    itemsList.appendChild(li);
+  } else {
+    for (const item of app.items) {
+      const li = document.createElement("li");
+      li.textContent = `${item.name} (${item.type}) - NPR ${item.price.toFixed(2)}`;
+      itemsList.appendChild(li);
+    }
+  }
 
-  saleCustomer.innerHTML =
-    '<option value="">Select customer</option>' +
-    app.customers.map((customer) => `<option value="${customer.id}">${customer.name}</option>`).join("");
+  const defaultCustomer = document.createElement("option");
+  defaultCustomer.value = "";
+  defaultCustomer.textContent = "Select customer";
+  saleCustomer.appendChild(defaultCustomer);
+  for (const customer of app.customers) {
+    const option = document.createElement("option");
+    option.value = customer.id;
+    option.textContent = customer.name;
+    saleCustomer.appendChild(option);
+  }
 
-  saleItem.innerHTML =
-    '<option value="">Select item</option>' +
-    app.items.map((item) => `<option value="${item.id}">${item.name} (${item.type})</option>`).join("");
+  const defaultItem = document.createElement("option");
+  defaultItem.value = "";
+  defaultItem.textContent = "Select item";
+  saleItem.appendChild(defaultItem);
+  for (const item of app.items) {
+    const option = document.createElement("option");
+    option.value = item.id;
+    option.textContent = `${item.name} (${item.type})`;
+    saleItem.appendChild(option);
+  }
 
   updateBookFields();
 }
