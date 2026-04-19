@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book & Stationery POS</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <section id="login-section" class="card">
+        <h1>POS Login</h1>
+        <p class="hint">Demo login: <strong>admin</strong> / <strong>Password123!</strong></p>
+        <form id="login-form">
+          <label for="username">Username</label>
+          <input id="username" name="username" type="text" autocomplete="username" required />
+
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" required />
+
+          <button type="submit">Sign in</button>
+        </form>
+        <p id="login-message" role="alert"></p>
+      </section>
+
+      <section id="app-section" class="hidden">
+        <header class="app-header card">
+          <h1>Book & Stationery POS</h1>
+          <button id="logout-btn" type="button">Logout</button>
+        </header>
+
+        <div class="grid">
+          <section class="card">
+            <h2>Create Customer</h2>
+            <form id="customer-form">
+              <label for="customer-name">Name</label>
+              <input id="customer-name" name="name" type="text" autocomplete="name" required />
+
+              <label for="customer-phone">Phone</label>
+              <input id="customer-phone" name="phone" type="tel" autocomplete="tel" required />
+
+              <button type="submit">Add Customer</button>
+            </form>
+          </section>
+
+          <section class="card">
+            <h2>Create Item</h2>
+            <form id="item-form">
+              <label for="item-name">Item Name</label>
+              <input id="item-name" name="name" type="text" required />
+
+              <label for="item-type">Type</label>
+              <select id="item-type" name="type" required>
+                <option value="book">Book</option>
+                <option value="stationery">Stationery</option>
+              </select>
+
+              <label for="item-price">Price</label>
+              <input id="item-price" name="price" type="number" min="0" step="0.01" required />
+
+              <button type="submit">Add Item</button>
+            </form>
+          </section>
+        </div>
+
+        <section class="card">
+          <h2>Sell Item</h2>
+          <form id="sale-form" class="sale-grid">
+            <div>
+              <label for="sale-customer">Customer</label>
+              <select id="sale-customer" name="customerId" required></select>
+            </div>
+
+            <div>
+              <label for="sale-item">Item</label>
+              <select id="sale-item" name="itemId" required></select>
+            </div>
+
+            <div>
+              <label for="sale-qty">Quantity</label>
+              <input id="sale-qty" name="quantity" type="number" min="1" value="1" required />
+            </div>
+
+            <div id="book-meta" class="book-meta hidden">
+              <label for="sale-school">School</label>
+              <input id="sale-school" name="school" type="text" />
+
+              <label for="sale-grade">Grade</label>
+              <select id="sale-grade" name="grade">
+                <option value="">Select grade</option>
+                <option>Grade 1</option>
+                <option>Grade 2</option>
+                <option>Grade 3</option>
+                <option>Grade 4</option>
+                <option>Grade 5</option>
+                <option>Grade 6</option>
+                <option>Grade 7</option>
+                <option>Grade 8</option>
+                <option>Grade 9</option>
+                <option>Grade 10</option>
+                <option>Grade 11</option>
+                <option>Grade 12</option>
+              </select>
+            </div>
+
+            <button type="submit">Complete Sale</button>
+          </form>
+        </section>
+
+        <div class="grid">
+          <section class="card">
+            <h2>Customer Balances</h2>
+            <ul id="balances"></ul>
+          </section>
+
+          <section class="card">
+            <h2>Items</h2>
+            <ul id="items"></ul>
+          </section>
+        </div>
+      </section>
+    </main>
+    <script src="./app.js"></script>
+  </body>
+</html>
